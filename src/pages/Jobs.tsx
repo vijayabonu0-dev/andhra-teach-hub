@@ -134,9 +134,9 @@ const Jobs = () => {
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          job.school.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesDistrict = !selectedDistrict || job.district === selectedDistrict
-    const matchesSubject = !selectedSubject || job.subject === selectedSubject
-    const matchesExperience = !selectedExperience || 
+    const matchesDistrict = !selectedDistrict || selectedDistrict === "all" || job.district === selectedDistrict
+    const matchesSubject = !selectedSubject || selectedSubject === "all" || job.subject === selectedSubject
+    const matchesExperience = !selectedExperience || selectedExperience === "all" ||
       (selectedExperience === "fresher" && job.experience.includes("0")) ||
       (selectedExperience === "experienced" && job.experience.includes("2")) ||
       (selectedExperience === "senior" && job.experience.includes("5"))
@@ -232,7 +232,7 @@ const Jobs = () => {
                     <SelectValue placeholder="All Districts" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Districts</SelectItem>
+                    <SelectItem value="all">All Districts</SelectItem>
                     {districts.map((district) => (
                       <SelectItem key={district} value={district}>{district}</SelectItem>
                     ))}
@@ -246,7 +246,7 @@ const Jobs = () => {
                     <SelectValue placeholder="All Subjects" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Subjects</SelectItem>
+                    <SelectItem value="all">All Subjects</SelectItem>
                     {subjects.map((subject) => (
                       <SelectItem key={subject} value={subject}>{subject}</SelectItem>
                     ))}
@@ -267,7 +267,7 @@ const Jobs = () => {
                         <SelectValue placeholder="Any Experience" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any Experience</SelectItem>
+                        <SelectItem value="all">Any Experience</SelectItem>
                         <SelectItem value="fresher">Fresher (0-1 years)</SelectItem>
                         <SelectItem value="experienced">Experienced (2-5 years)</SelectItem>
                         <SelectItem value="senior">Senior (5+ years)</SelectItem>
@@ -294,7 +294,7 @@ const Jobs = () => {
                         <SelectValue placeholder="Any Salary" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any Salary</SelectItem>
+                        <SelectItem value="all">Any Salary</SelectItem>
                         <SelectItem value="25-35">₹25,000 - ₹35,000</SelectItem>
                         <SelectItem value="35-45">₹35,000 - ₹45,000</SelectItem>
                         <SelectItem value="45+">₹45,000+</SelectItem>
