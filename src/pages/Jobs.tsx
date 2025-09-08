@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Search,
   MapPin,
@@ -16,14 +18,27 @@ import {
   BookmarkPlus,
   Eye,
   Star,
-  Clock
+  Clock,
+  Users,
+  TrendingUp,
+  Award,
+  ExternalLink,
+  Heart,
+  CheckCircle,
+  AlertCircle,
+  X
 } from "lucide-react"
 
 const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDistrict, setSelectedDistrict] = useState("")
   const [selectedSubject, setSelectedSubject] = useState("")
+  const [selectedExperience, setSelectedExperience] = useState("")
+  const [selectedSalary, setSelectedSalary] = useState("")
   const [showFilters, setShowFilters] = useState(false)
+  const [sortBy, setSortBy] = useState("relevance")
+  const [savedJobs, setSavedJobs] = useState<number[]>([])
+  const [selectedJob, setSelectedJob] = useState<any>(null)
 
   // Mock data - will be replaced with real data later
   const jobs = [
@@ -121,23 +136,75 @@ const Jobs = () => {
                          job.school.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesDistrict = !selectedDistrict || job.district === selectedDistrict
     const matchesSubject = !selectedSubject || job.subject === selectedSubject
+    const matchesExperience = !selectedExperience || 
+      (selectedExperience === "fresher" && job.experience.includes("0")) ||
+      (selectedExperience === "experienced" && job.experience.includes("2")) ||
+      (selectedExperience === "senior" && job.experience.includes("5"))
     
-    return matchesSearch && matchesDistrict && matchesSubject
+    return matchesSearch && matchesDistrict && matchesSubject && matchesExperience
+  }).sort((a, b) => {
+    switch (sortBy) {
+      case "date":
+        return new Date(b.posted).getTime() - new Date(a.posted).getTime()
+      case "salary":
+        return parseInt(b.salary.replace(/[^\d]/g, '')) - parseInt(a.salary.replace(/[^\d]/g, ''))
+      case "match":
+        return b.matchScore - a.matchScore
+      default:
+        return b.matchScore - a.matchScore
+    }
   })
+
+  const toggleSaveJob = (jobId: number) => {
+    setSavedJobs(prev => 
+      prev.includes(jobId) 
+        ? prev.filter(id => id !== jobId)
+        : [...prev, jobId]
+    )
+  }
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Job Opportunities</h1>
-          <p className="text-muted-foreground">Find teaching positions across Andhra Pradesh</p>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8">
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            Job Opportunities
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Discover teaching positions across Andhra Pradesh
+          </p>
+          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
+            <div className="flex items-center">
+              <Building2 className="w-4 h-4 mr-1" />
+              {jobs.length} Active Jobs
+            </div>
+            <div className="flex items-center">
+              <Users className="w-4 h-4 mr-1" />
+              {jobs.reduce((acc, job) => acc + job.applicants, 0)} Total Applications
+            </div>
+            <div className="flex items-center">
+              <TrendingUp className="w-4 h-4 mr-1" />
+              95% Success Rate
+            </div>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
             <Filter className="w-4 h-4 mr-2" />
-            Filters
+            {showFilters ? 'Hide Filters' : 'Advanced Filters'}
           </Button>
+          <Tabs value={savedJobs.length > 0 ? "saved" : "all"} className="w-auto">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="all">All Jobs</TabsTrigger>
+              <TabsTrigger value="saved" className="relative">
+                Saved 
+                {savedJobs.length > 0 && (
+                  <Badge className="ml-1 h-5 w-5 p-0 text-xs">{savedJobs.length}</Badge>
+                )}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </div>
 
@@ -195,11 +262,12 @@ const Jobs = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label>Experience Level</Label>
-                    <Select>
+                    <Select value={selectedExperience} onValueChange={setSelectedExperience}>
                       <SelectTrigger>
                         <SelectValue placeholder="Any Experience" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="">Any Experience</SelectItem>
                         <SelectItem value="fresher">Fresher (0-1 years)</SelectItem>
                         <SelectItem value="experienced">Experienced (2-5 years)</SelectItem>
                         <SelectItem value="senior">Senior (5+ years)</SelectItem>
@@ -221,11 +289,12 @@ const Jobs = () => {
                   </div>
                   <div className="space-y-2">
                     <Label>Salary Range</Label>
-                    <Select>
+                    <Select value={selectedSalary} onValueChange={setSelectedSalary}>
                       <SelectTrigger>
                         <SelectValue placeholder="Any Salary" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="">Any Salary</SelectItem>
                         <SelectItem value="25-35">₹25,000 - ₹35,000</SelectItem>
                         <SelectItem value="35-45">₹35,000 - ₹45,000</SelectItem>
                         <SelectItem value="45+">₹45,000+</SelectItem>
@@ -244,101 +313,241 @@ const Jobs = () => {
         <p className="text-muted-foreground">
           Showing {filteredJobs.length} of {jobs.length} jobs
         </p>
-        <Select>
-          <SelectTrigger className="w-48">
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-52">
             <SelectValue placeholder="Sort by Relevance" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="relevance">Sort by Relevance</SelectItem>
-            <SelectItem value="date">Sort by Date</SelectItem>
+            <SelectItem value="relevance">Sort by Match Score</SelectItem>
+            <SelectItem value="date">Sort by Date Posted</SelectItem>
             <SelectItem value="salary">Sort by Salary</SelectItem>
-            <SelectItem value="location">Sort by Location</SelectItem>
+            <SelectItem value="match">Sort by Best Match</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       {/* Job Listings */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {filteredJobs.map((job) => (
-          <Card key={job.id} className={`border-0 shadow-soft bg-gradient-card hover:shadow-medium transition-all duration-300 ${job.featured ? 'ring-2 ring-primary/20' : ''}`}>
+          <Card key={job.id} className={`group border-0 shadow-soft bg-gradient-card hover:shadow-elegant transition-all duration-300 ${job.featured ? 'ring-2 ring-primary/30 shadow-glow' : ''}`}>
             <CardContent className="p-6">
-              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                <div className="flex-1 space-y-3">
+              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                <div className="flex-1 space-y-4">
                   <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-xl font-semibold hover:text-primary cursor-pointer">
-                          {job.title}
-                        </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center flex-wrap gap-3">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <h3 className="text-xl font-semibold hover:text-primary cursor-pointer transition-colors group-hover:text-primary">
+                              {job.title}
+                            </h3>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle className="text-2xl">{job.title}</DialogTitle>
+                              <DialogDescription className="text-base">
+                                {job.school} • {job.location}
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-6">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <Label className="text-sm font-medium">Salary</Label>
+                                  <p className="text-lg font-semibold text-primary">{job.salary}</p>
+                                </div>
+                                <div className="space-y-2">
+                                  <Label className="text-sm font-medium">Experience Required</Label>
+                                  <p>{job.experience}</p>
+                                </div>
+                                <div className="space-y-2">
+                                  <Label className="text-sm font-medium">Application Deadline</Label>
+                                  <p className="text-red-600 font-medium">{job.deadline}</p>
+                                </div>
+                                <div className="space-y-2">
+                                  <Label className="text-sm font-medium">Job Type</Label>
+                                  <p>{job.type}</p>
+                                </div>
+                              </div>
+                              
+                              <Separator />
+                              
+                              <div className="space-y-3">
+                                <Label className="text-sm font-medium">Job Description</Label>
+                                <p className="text-muted-foreground leading-relaxed">{job.description}</p>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                <Label className="text-sm font-medium">Requirements</Label>
+                                <ul className="space-y-2">
+                                  {job.requirements.map((req, index) => (
+                                    <li key={index} className="flex items-center text-sm">
+                                      <CheckCircle className="w-4 h-4 mr-2 text-primary" />
+                                      {req}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              
+                              <div className="flex space-x-3 pt-4">
+                                <Button className="flex-1">
+                                  Apply Now
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  onClick={() => toggleSaveJob(job.id)}
+                                  className={savedJobs.includes(job.id) ? "text-red-600 border-red-600" : ""}
+                                >
+                                  <Heart className={`w-4 h-4 mr-2 ${savedJobs.includes(job.id) ? "fill-current" : ""}`} />
+                                  {savedJobs.includes(job.id) ? "Saved" : "Save"}
+                                </Button>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        
                         {job.featured && (
-                          <Badge className="bg-gradient-primary text-white">Featured</Badge>
+                          <Badge className="bg-gradient-primary text-white shadow-sm">
+                            <Award className="w-3 h-3 mr-1" />
+                            Featured
+                          </Badge>
                         )}
-                        <div className="flex items-center space-x-1 text-warning">
+                        
+                        <div className="flex items-center space-x-1 px-2 py-1 bg-warning/10 text-warning rounded-full text-sm font-medium">
                           <Star className="w-4 h-4 fill-current" />
-                          <span className="text-sm font-medium">{job.matchScore}% match</span>
+                          <span>{job.matchScore}% match</span>
                         </div>
                       </div>
-                      <p className="text-muted-foreground font-medium">{job.school}</p>
+                      
+                      <p className="text-muted-foreground font-medium flex items-center">
+                        <Building2 className="w-4 h-4 mr-2" />
+                        {job.school}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-1" />
-                      {job.location}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
+                    <div className="flex items-center text-sm">
+                      <MapPin className="w-4 h-4 mr-2 text-primary" />
+                      <div>
+                        <p className="font-medium">{job.location}</p>
+                        <p className="text-xs text-muted-foreground">{job.district}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <DollarSign className="w-4 h-4 mr-1" />
-                      {job.salary}
+                    <div className="flex items-center text-sm">
+                      <DollarSign className="w-4 h-4 mr-2 text-green-600" />
+                      <div>
+                        <p className="font-medium">{job.salary}</p>
+                        <p className="text-xs text-muted-foreground">Per month</p>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {job.experience}
+                    <div className="flex items-center text-sm">
+                      <Clock className="w-4 h-4 mr-2 text-blue-600" />
+                      <div>
+                        <p className="font-medium">{job.experience}</p>
+                        <p className="text-xs text-muted-foreground">Required</p>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      Deadline: {job.deadline}
+                    <div className="flex items-center text-sm">
+                      <Calendar className="w-4 h-4 mr-2 text-red-600" />
+                      <div>
+                        <p className="font-medium">{job.deadline}</p>
+                        <p className="text-xs text-muted-foreground">Deadline</p>
+                      </div>
                     </div>
                   </div>
 
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {job.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2">
-                    {job.requirements.slice(0, 3).map((req, index) => (
+                    <Badge className="bg-primary/10 text-primary border-primary/20">
+                      {job.subject}
+                    </Badge>
+                    {job.requirements.slice(0, 2).map((req, index) => (
                       <Badge key={index} variant="secondary" className="text-xs">
                         {req}
                       </Badge>
                     ))}
+                    {job.requirements.length > 2 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{job.requirements.length - 2} more
+                      </Badge>
+                    )}
                   </div>
 
-                  <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                    <div className="flex items-center">
-                      <Eye className="w-3 h-3 mr-1" />
-                      {job.views} views
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6 text-xs text-muted-foreground">
+                      <div className="flex items-center">
+                        <Eye className="w-3 h-3 mr-1" />
+                        {job.views} views
+                      </div>
+                      <div className="flex items-center">
+                        <Users className="w-3 h-3 mr-1" />
+                        {job.applicants} applicants
+                      </div>
+                      <span>Posted {job.posted}</span>
                     </div>
-                    <div className="flex items-center">
-                      <Building2 className="w-3 h-3 mr-1" />
-                      {job.applicants} applicants
+                    
+                    <div className="flex items-center space-x-2">
+                      {new Date(job.deadline) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) && (
+                        <Badge variant="destructive" className="text-xs">
+                          <AlertCircle className="w-3 h-3 mr-1" />
+                          Closing Soon
+                        </Badge>
+                      )}
+                      <Badge variant="outline" className="text-xs">
+                        {job.type}
+                      </Badge>
                     </div>
-                    <span>Posted {job.posted}</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col space-y-2 lg:min-w-[120px]">
-                  <Button className="w-full">
+                <div className="flex flex-col space-y-3 lg:min-w-[140px]">
+                  <Button className="w-full group/btn">
                     Apply Now
+                    <ExternalLink className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <BookmarkPlus className="w-4 h-4 mr-2" />
-                    Save
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full" 
+                    onClick={() => toggleSaveJob(job.id)}
+                  >
+                    <Heart className={`w-4 h-4 mr-2 ${savedJobs.includes(job.id) ? "fill-current text-red-600" : ""}`} />
+                    {savedJobs.includes(job.id) ? "Saved" : "Save"}
                   </Button>
                 </div>
               </div>
             </CardContent>
           </Card>
         ))}
+        
+        {filteredJobs.length === 0 && (
+          <Card className="border-0 shadow-soft bg-gradient-card">
+            <CardContent className="p-12 text-center">
+              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">No jobs found</h3>
+              <p className="text-muted-foreground mb-4">
+                Try adjusting your search criteria or filters to find more opportunities.
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSearchQuery("")
+                  setSelectedDistrict("")
+                  setSelectedSubject("")
+                  setSelectedExperience("")
+                  setSelectedSalary("")
+                }}
+              >
+                Clear all filters
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Load More */}
