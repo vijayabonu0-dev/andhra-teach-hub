@@ -81,8 +81,8 @@ export function AppSidebar() {
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-foreground">Mega-DSC</h2>
-                <p className="text-xs text-muted-foreground">Teacher Portal</p>
+                <h2 className="text-sm font-bold gradient-text">TeachMate</h2>
+                <p className="text-xs text-muted-foreground">AI Platform</p>
               </div>
             </div>
           ) : (

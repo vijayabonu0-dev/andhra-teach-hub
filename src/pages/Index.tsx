@@ -43,8 +43,8 @@ const Index = () => {
               <Shield className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-foreground">Mega-DSC Portal</h1>
-              <p className="text-xs text-muted-foreground">Government of Andhra Pradesh</p>
+            <h1 className="text-lg font-bold gradient-text">TeachMate</h1>
+              <p className="text-xs text-muted-foreground">Powered by Andhra Pradesh Education</p>
             </div>
           </div>
           
@@ -62,30 +62,30 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
-          <Badge variant="secondary" className="mb-4">
+          <Badge variant="secondary" className="mb-4 pulse-slow glass-card">
             <BookOpen className="w-4 h-4 mr-2" />
-            Department of School Education
+            Revolutionary Teaching Platform
           </Badge>
           
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-hero bg-clip-text text-transparent mb-6">
-            Mega-DSC Teacher Portal
+          <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-6 float">
+            TeachMate Platform
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Connecting qualified teachers with educational opportunities across Andhra Pradesh. 
-            Your gateway to a rewarding teaching career in government schools.
+            Where passionate educators meet exceptional opportunities. Transform your teaching journey 
+            with AI-powered matching, smart analytics, and seamless career management.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link to="/register?role=candidate">
-              <Button size="lg" className="bg-gradient-primary hover:opacity-90 text-white shadow-medium">
-                Join as Teacher
+              <Button size="lg" className="glow-button bg-gradient-primary hover:opacity-90 text-white shadow-rainbow">
+                Start Teaching Journey
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link to="/register?role=school">
-              <Button size="lg" variant="outline">
-                Register School
+              <Button size="lg" variant="outline" className="glow-button border-2 hover:bg-gradient-secondary hover:text-white">
+                Partner with Us
                 <Building2 className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -119,12 +119,12 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-0 shadow-soft bg-gradient-card hover:shadow-medium transition-all duration-300">
+              <Card key={index} className="interactive-card border-0 shadow-rainbow bg-gradient-card group">
                 <CardHeader className="text-center pb-2">
-                  <div className={`w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4 ${feature.color}`}>
+                  <div className={`w-12 h-12 rounded-full bg-gradient-interactive flex items-center justify-center mx-auto mb-4 text-white shadow-glow group-hover:scale-110 transition-transform duration-300`}>
                     <feature.icon className="w-6 h-6" />
                   </div>
-                  <CardTitle className="text-xl mb-2">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl mb-2 group-hover:gradient-text transition-all duration-300">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <CardDescription className="text-base">
@@ -201,15 +201,21 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-gradient-primary text-white">
-        <div className="container mx-auto text-center max-w-3xl">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your Teaching Journey?</h2>
+      <section className="py-16 px-4 bg-gradient-hero text-white relative overflow-hidden">
+        <div 
+          className="absolute inset-0 opacity-30" 
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        ></div>
+        <div className="container mx-auto text-center max-w-3xl relative">
+          <h2 className="text-3xl font-bold mb-4">Transform Education with TeachMate</h2>
           <p className="text-xl opacity-90 mb-8">
-            Join thousands of educators who have found their perfect teaching position through our platform.
+            Join the future of education technology. Connect, grow, and make a lasting impact on students' lives.
           </p>
           <Link to="/register">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              Create Your Account Today
+            <Button size="lg" className="glow-button bg-white text-primary hover:bg-white/90 shadow-rainbow">
+              Begin Your Journey
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -225,12 +231,12 @@ const Index = () => {
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="font-semibold text-sm">Mega-DSC Teacher Portal</div>
-                <div className="text-xs text-muted-foreground">Government of Andhra Pradesh</div>
+                <div className="font-semibold text-sm gradient-text">TeachMate Platform</div>
+                <div className="text-xs text-muted-foreground">Powered by Advanced AI Technology</div>
               </div>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2024 Department of School Education, AP. All rights reserved.
+              © 2024 TeachMate Platform. Revolutionizing education through technology.
             </div>
           </div>
         </div>
