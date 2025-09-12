@@ -39,9 +39,8 @@ const Register = () => {
   })
 
   const districts = [
-    "Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", 
-    "Kurnool", "Nellore", "Prakasam", "Srikakulam", "Visakhapatnam", 
-    "Vizianagaram", "West Godavari", "YSR Kadapa"
+    "Central", "North", "South", "East", "West", 
+    "Northeast", "Southeast", "Southwest", "Northwest"
   ]
 
   const handleCandidateSubmit = (e: React.FormEvent) => {
@@ -66,11 +65,10 @@ const Register = () => {
           
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Shield className="w-7 h-7 text-white" />
+              <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="TeachMate Logo" className="w-7 h-7" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Mega-DSC Portal</h1>
-              <p className="text-sm text-muted-foreground">Government of AP</p>
+              <h1 className="text-xl font-bold text-foreground">TeachMate</h1>
             </div>
           </div>
         </div>
@@ -79,7 +77,7 @@ const Register = () => {
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl">Create Your Account</CardTitle>
             <CardDescription>
-              Join the Andhra Pradesh Teacher Portal today
+              Join the TeachMate platform today
             </CardDescription>
           </CardHeader>
           
@@ -123,10 +121,10 @@ const Register = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="rollNo">DSC Roll Number</Label>
+                    <Label htmlFor="rollNo">Teacher ID</Label>
                     <Input
                       id="rollNo"
-                      placeholder="Enter your DSC roll number"
+                      placeholder="Enter your teacher ID"
                       value={candidateData.rollNo}
                       onChange={(e) => setCandidateData(prev => ({ ...prev, rollNo: e.target.value }))}
                       required

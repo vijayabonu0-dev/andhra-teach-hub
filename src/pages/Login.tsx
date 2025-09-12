@@ -33,11 +33,10 @@ const Login = () => {
           
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Shield className="w-7 h-7 text-white" />
+              <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="TeachMate Logo" className="w-7 h-7" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Mega-DSC Portal</h1>
-              <p className="text-sm text-muted-foreground">Government of AP</p>
+              <h1 className="text-xl font-bold text-foreground">TeachMate</h1>
             </div>
           </div>
         </div>
