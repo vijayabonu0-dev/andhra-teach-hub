@@ -40,10 +40,10 @@ const Index = () => {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
+              <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="Mega DSC Logo" className="w-6 h-6" />
             </div>
             <div>
-            <h1 className="text-lg font-bold gradient-text">TeachMate</h1>
+            <h1 className="text-lg font-bold gradient-text">Mega DSC</h1>
               <p className="text-xs text-muted-foreground">Powered by Andhra Pradesh Education</p>
             </div>
           </div>
@@ -68,7 +68,7 @@ const Index = () => {
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-6 float">
-            TeachMate Platform
+            Mega DSC Platform
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
@@ -209,7 +209,7 @@ const Index = () => {
           }}
         ></div>
         <div className="container mx-auto text-center max-w-3xl relative">
-          <h2 className="text-3xl font-bold mb-4">Transform Education with TeachMate</h2>
+          <h2 className="text-3xl font-bold mb-4">Transform Education with Mega DSC</h2>
           <p className="text-xl opacity-90 mb-8">
             Join the future of education technology. Connect, grow, and make a lasting impact on students' lives.
           </p>
@@ -228,15 +228,15 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
+                <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="Mega DSC Logo" className="w-5 h-5" />
               </div>
               <div>
-                <div className="font-semibold text-sm gradient-text">TeachMate Platform</div>
-                <div className="text-xs text-muted-foreground">Powered by Advanced AI Technology</div>
+                <div className="font-semibold text-sm gradient-text">Mega DSC Platform</div>
+                <div className="text-xs text-muted-foreground">Bridging talent and teaching careers</div>
               </div>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2024 TeachMate Platform. Revolutionizing education through technology.
+              © 2025 Mega DSC Platform. Revolutionizing education through technology.
             </div>
           </div>
         </div>

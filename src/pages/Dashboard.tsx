@@ -77,8 +77,8 @@ const Dashboard = () => {
           }}
         ></div>
         <div className="relative">
-          <h1 className="text-2xl font-bold mb-2 float">Welcome to TeachMate, John! 👋</h1>
-          <p className="opacity-90">Your AI-powered career companion is ready to accelerate your teaching journey.</p>
+          <h1 className="text-2xl font-bold mb-2 float">Welcome to Mega DSC, John! 👋</h1>
+          <p className="opacity-90">Bridging talent and teaching careers with AI-powered solutions.</p>
         </div>
       </div>
 
@@ -226,7 +226,7 @@ const Dashboard = () => {
             <CardDescription>AI-powered shortcuts to success</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start glow-button bg-gradient-primary text-white hover:shadow-glow">
+            <Button className="w-full justify-start glow-button bg-gradient-primary text-white hover:shadow-glow" onClick={() => window.location.href = '/cv-generator'}>
               <FileText className="w-4 h-4 mr-2" />
               AI CV Generator
             </Button>

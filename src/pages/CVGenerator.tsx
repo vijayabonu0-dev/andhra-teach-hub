@@ -39,7 +39,7 @@ const CVGenerator = () => {
       id: "modern",
       name: "Modern Professional",
       description: "Clean and contemporary design perfect for government positions",
-      preview: "/api/placeholder/300/400",
+      preview: "/src/assets/cv-template-modern.jpg",
       color: "blue",
       features: ["ATS Friendly", "Clean Layout", "Professional Typography"]
     },
@@ -47,7 +47,7 @@ const CVGenerator = () => {
       id: "academic",
       name: "Academic Excellence",
       description: "Traditional academic format highlighting education and research",
-      preview: "/api/placeholder/300/400",
+      preview: "/src/assets/cv-template-academic.jpg",
       color: "green",
       features: ["Education Focus", "Research Sections", "Publication Ready"]
     },
@@ -55,7 +55,7 @@ const CVGenerator = () => {
       id: "creative",
       name: "Creative Educator",
       description: "Vibrant design for creative subjects and innovative teaching",
-      preview: "/api/placeholder/300/400",
+      preview: "/src/assets/cv-template-creative.jpg",
       color: "purple",
       features: ["Visual Appeal", "Color Accents", "Modern Design"]
     }
@@ -166,8 +166,12 @@ const CVGenerator = () => {
                     onClick={() => setSelectedTemplate(template.id)}
                   >
                     <div className="p-4 space-y-3">
-                      <div className="aspect-[3/4] bg-muted rounded-md flex items-center justify-center">
-                        <FileText className="w-8 h-8 text-muted-foreground" />
+                      <div className="aspect-[3/4] bg-muted rounded-md overflow-hidden">
+                        <img 
+                          src={template.preview} 
+                          alt={`${template.name} template preview`}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div className="space-y-2">
                         <h3 className="font-semibold">{template.name}</h3>
