@@ -77,7 +77,7 @@ const Dashboard = () => {
           }}
         ></div>
         <div className="relative">
-          <h1 className="text-2xl font-bold mb-2 float">Welcome to Mega DSC, John! 👋</h1>
+          <h1 className="text-2xl font-bold mb-2 float">Welcome to TeachMate, John! 👋</h1>
           <p className="opacity-90">Bridging talent and teaching careers with AI-powered solutions.</p>
         </div>
       </div>
@@ -241,7 +241,7 @@ const Dashboard = () => {
               Explore Opportunities
             </Button>
             
-            <Button className="w-full justify-start glow-button bg-gradient-interactive text-white hover:shadow-glow">
+            <Button className="w-full justify-start glow-button bg-gradient-interactive text-white hover:shadow-glow" onClick={() => window.location.href = '/analytics'}>
               <TrendingUp className="w-4 h-4 mr-2" />
               Career Analytics
             </Button>

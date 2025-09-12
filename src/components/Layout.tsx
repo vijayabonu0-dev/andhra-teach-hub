@@ -20,7 +20,7 @@ export default function Layout({ children }: LayoutProps) {
               <SidebarTrigger className="hover:bg-accent rounded-lg p-2" />
               <div className="hidden md:block">
                 <h1 className="text-lg font-semibold text-foreground">
-                  Mega DSC Portal
+                  TeachMate Portal
                 </h1>
               </div>
             </div>

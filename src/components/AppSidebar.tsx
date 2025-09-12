@@ -78,16 +78,15 @@ export function AppSidebar() {
           {!isCollapsed ? (
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="Mega DSC Logo" className="w-5 h-5" />
+                <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="TeachMate Logo" className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-sm font-bold gradient-text">Mega DSC</h2>
-                <p className="text-xs text-muted-foreground">AI Platform</p>
+                <h2 className="text-sm font-bold gradient-text">TeachMate</h2>
               </div>
             </div>
           ) : (
             <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto">
-              <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="Mega DSC Logo" className="w-5 h-5" />
+              <img src="/lovable-uploads/9873b002-0147-47db-b92b-843cd0d00bd2.png" alt="TeachMate Logo" className="w-5 h-5" />
             </div>
           )}
         </div>
