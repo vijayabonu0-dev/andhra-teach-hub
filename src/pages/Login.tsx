@@ -1,24 +1,88 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff, Shield, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useAuth } from "@/contexts/AuthContext"
+import { useToast } from "@/hooks/use-toast"
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     role: ""
   })
+  
+  const { signIn, user } = useAuth()
+  const { toast } = useToast()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard')
+    }
+  }, [user, navigate])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle login logic here
-    console.log("Login attempt:", formData)
+    
+    if (!formData.email || !formData.password || !formData.role) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      })
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const { error } = await signIn(formData.email, formData.password)
+      
+      if (error) {
+        // Handle specific error cases
+        if (error.message.includes('Invalid login credentials')) {
+          toast({
+            title: "Login Failed",
+            description: "Invalid email or password. Please check your credentials.",
+            variant: "destructive"
+          })
+        } else if (error.message.includes('Email not confirmed')) {
+          toast({
+            title: "Email Not Verified",
+            description: "Please check your email and verify your account before signing in.",
+            variant: "destructive"
+          })
+          navigate(`/verify-otp?email=${encodeURIComponent(formData.email)}&type=signup`)
+        } else {
+          toast({
+            title: "Login Error",
+            description: error.message || "An unexpected error occurred.",
+            variant: "destructive"
+          })
+        }
+      } else {
+        toast({
+          title: "Welcome Back!",
+          description: "You have successfully logged in.",
+        })
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      toast({
+        title: "Login Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -113,8 +177,19 @@ const Login = () => {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-soft">
-                Sign In
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-primary hover:opacity-90 text-white shadow-soft"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Shield className="w-4 h-4 mr-2 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
               </Button>
             </form>
 
