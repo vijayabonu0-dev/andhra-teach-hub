@@ -71,8 +71,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Where passionate educators meet exceptional opportunities. Transform your teaching journey 
-            with AI-powered matching, smart analytics, and seamless career management.
+            Bridging Talent and Building Careers
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
